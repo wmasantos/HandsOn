@@ -17,7 +17,7 @@ public class CheckListService {
         List<PairValueEntity> steps = checkListRepository.get(Constants.STEP);
         List<PairValueEntity> federations = checkListRepository.get(Constants.FEDERATION);
 
-        CheckListEntity checkListEntity = new CheckListEntity(modalities, stadiums, steps, federations);
+        CheckListEntity checkListEntity = new CheckListEntity(federations, steps, stadiums, modalities);
 
         ResultWithContentEntity<CheckListEntity> resultWithContentEntity = new ResultWithContentEntity<>();
         resultWithContentEntity.setCode(0);
