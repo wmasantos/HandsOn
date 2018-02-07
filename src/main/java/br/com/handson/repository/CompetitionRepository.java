@@ -52,9 +52,9 @@ public class CompetitionRepository {
     //OK
     public boolean verifyPlays(CompetitionEntity competitionEntity){
         String sql = "SELECT * FROM JOGO j INNER JOIN MODALIDADE m ON m.ID = j.IDMODALIDADE INNER JOIN ESTADIO e ON " +
-                "e.ID = j.IDESTADIO WHERE j.IDESTADIO = ? AND j.IDMODALIDADE = ? AND ((j.DATA_INICIO BETWEEN ? " +
+                "e.ID = j.IDESTADIO WHERE j.IDESTADIO = ? AND j.IDMODALIDADE = ? AND (((j.DATA_INICIO BETWEEN ? " +
                 "AND ?) OR (j.DATA_TERMINO BETWEEN ? AND ?)) " +
-                "OR ((? BETWEEN j.DATA_INICIO AND j.DATA_TERMINO) OR (? BETWEEN j.DATA_INICIO AND j.DATA_TERMINO))";
+                "OR ((? BETWEEN j.DATA_INICIO AND j.DATA_TERMINO) OR (? BETWEEN j.DATA_INICIO AND j.DATA_TERMINO)))";
 
         try {
             PreparedStatement stm = con.getConnection().prepareCall(sql);
@@ -109,15 +109,32 @@ public class CompetitionRepository {
         Calendar checkAux = Calendar.getInstance();
         checkAux.setTime(competitionEntity.getStartDate());
 
-        checkAux.add(Calendar.MINUTE, 30);
+        checkAux.add(Calendar.MINUTE, 29);
+        checkAux.add(Calendar.SECOND, 59);
 
         return competitionEntity.getFinalDate().after(checkAux.getTime());
     }
 
     //Para evitar problemas, a organização das olimpíadas que limitar a no máximo 4
     //competições por dia num mesmo local
-    public String verifyCount(){
-        return null;
+    public boolean verifyCount(CompetitionEntity competitionEntity){
+        String sql = "SELECT COUNT(1) FROM JOGO j INNER JOIN ESTADIO e ON e.ID = j.IDESTADIO WHERE FORMATDATETIME(j.DATA_INICIO, 'yyyy-MM-dd') = FORMATDATETIME(?, 'yyyy-MM-dd') AND j.IDESTADIO = ?";
+
+        try {
+            PreparedStatement stm = con.getConnection().prepareCall(sql);
+            stm.setString(1, new SimpleDateFormat("yyyy-MM-dd").format(competitionEntity.getStartDate()));
+            stm.setInt(2, competitionEntity.getStadiumId());
+
+            ResultSet rs = stm.executeQuery();
+
+            if(rs.next())
+                return rs.getInt(1) >= 4 ? false : true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     //Para situações de erro, é necessário que a resposta da requisição seja coerente em

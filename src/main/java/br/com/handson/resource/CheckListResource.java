@@ -28,9 +28,19 @@ public class CheckListResource {
 
     @PostMapping
     public String test(@RequestBody CompetitionEntity competitionEntity){
+        //PRIMEIRA REGRA - verifyDistinctPlayers pois preciso verificar de os 2 players informados para o jogo estão jogando pela final ou semifinal
+
+        //FALSE = JÁ EXISTE UMA PARTIDA OCORRENDO NO MESMO LOCAL, HORARIO E MODALIDADE, TRUE, PODE CADASTRAR
         boolean teste = new CompetitionRepository().verifyPlays(competitionEntity);
+
+        //FALSE DEU ERRADO O CADASTRO, TRUE, DEU CERTO
         boolean res = new CompetitionRepository().add(competitionEntity);
+
+        //FALSE = A PARTIDA TEM MENOS DE 30 MINUTOS, TRUE, A PARTIDA TEM 30 OU MAIS.
         boolean res2 = new CompetitionRepository().verifyTime(competitionEntity);
+
+        //FALSE = EXISTE 4 EVENTOS NO MESMO DIA, TRUE, PODE CADASTRAR A COMPETIÇÃO.
+        boolean res3 = new CompetitionRepository().verifyCount(competitionEntity);
         return "";
     }
 }
