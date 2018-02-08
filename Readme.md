@@ -1,4 +1,4 @@
-# Desafio HandsOn!
+# Desafio CI&T HandsOn!
 
 Este endpoint foi desenvolvido utilizando a linguagem de programação Java, com o uso do framework Spring. Para a persistência de dados, foi utilizado o banco de dados em memória H2, que por sua vez é uma implementação Java.
 A forma como os dados foram persistidos se deu através de JDBC, uma vez que o uso de JPA para a criação das queries com maior complexidade não estavam se comportando da maneira esperada no H2.
