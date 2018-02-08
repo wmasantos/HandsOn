@@ -1,0 +1,82 @@
+{
+	"variables": [],
+	"info": {
+		"name": "HandsOn",
+		"_postman_id": "be250e68-eeee-9fbc-2506-50b2fc0407f6",
+		"description": "Coleção de chamada de endpoints da API HandsOn",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CheckList",
+			"request": {
+				"url": "localhost:8080/checkList",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Recurso que fornece informações dos registros já existentes na base de dados para consulta"
+			},
+			"response": []
+		},
+		{
+			"name": "Competition",
+			"request": {
+				"url": "localhost:8080/competition",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Recurso que fornece informações das competições, essa chamada lista todas existentes em ordem ascendente pela data de inicio da competição"
+			},
+			"response": []
+		},
+		{
+			"name": "CompetitionWithParam",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/competition?modality=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"competition"
+					],
+					"query": [
+						{
+							"key": "modality",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Recurso que fornece informações das competições, essa chamada lista todas as competições existentes em uma dada modalidade em ordem ascendente pela data de inicio da competição"
+			},
+			"response": []
+		},
+		{
+			"name": "Competition",
+			"request": {
+				"url": "localhost:8080/competition",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fedaration1Id\":4,\n    \"federation2Id\":6,\n    \"stepId\":5,\n    \"stadiumId\":2,\n    \"modalityId\":1,\n    \"startDate\":\"2017-18-15T16:30:00\",\n    \"finalDate\":\"2017-18-15T17:00:00\"\n}"
+				},
+				"description": "Chamada de endpoint que insere uma competição na base de dados"
+			},
+			"response": []
+		}
+	]
+}
