@@ -2,10 +2,8 @@ package br.com.handson.repository;
 
 import br.com.handson.entity.CompetitionEntity;
 import br.com.handson.entity.CompetitionResultEntity;
-import br.com.handson.entity.DatasEntity;
 import br.com.handson.util.H2Connection;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

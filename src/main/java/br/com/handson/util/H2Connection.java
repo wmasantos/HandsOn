@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class H2Connection {
     private final String driver = "org.h2.Driver";
-    private final String url = "jdbc:h2:~/handson2";
+    private final String url = "jdbc:h2:~/handson3";
     private final String usuario = "sa";
     private final String senha = "";
     private Connection con;
@@ -26,7 +26,6 @@ public class H2Connection {
             try {
                 con = DriverManager.getConnection(url, usuario, senha);
                 con.setAutoCommit(false);
-                System.out.println("CONECTOU");
                 return con;
             } catch (SQLException ex) {
                 Logger.getLogger(H2Connection.class.getName()).log(Level.SEVERE, null, ex);
