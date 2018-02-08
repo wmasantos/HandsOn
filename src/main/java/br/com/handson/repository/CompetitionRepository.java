@@ -88,17 +88,6 @@ public class CompetitionRepository {
         return rs.next() ? rs.getInt(1) : 0;
     }
 
-    //A competição deve ter a duração de no mínimo 30 minutos.
-    public boolean verifyTime(CompetitionEntity competitionEntity){
-        Calendar checkAux = Calendar.getInstance();
-        checkAux.setTime(competitionEntity.getStartDate());
-
-        checkAux.add(Calendar.MINUTE, 29);
-        checkAux.add(Calendar.SECOND, 59);
-
-        return competitionEntity.getFinalDate().after(checkAux.getTime());
-    }
-
     //Para evitar problemas, a organização das olimpíadas que limitar a no máximo 4
     //competições por dia num mesmo local
     public int verifyCount(CompetitionEntity competitionEntity) throws SQLException {

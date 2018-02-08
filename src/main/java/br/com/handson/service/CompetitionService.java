@@ -5,13 +5,14 @@ import br.com.handson.entity.ResultEntity;
 import br.com.handson.repository.CompetitionRepository;
 
 import java.sql.SQLException;
+import java.util.Calendar;
 
 public class CompetitionService {
     public ResultEntity validadeCompetition(CompetitionEntity competitionEntity){
         ResultEntity resultEntity = new ResultEntity();
 
         //VERIFICA SE AS FEDERACOES PASSADAS SAO IGUAIS
-        if(competitionEntity.getFedaration1Id() == competitionEntity.getFederation2Id())
+        if(checkPlayers(competitionEntity))
             resultEntity.getErrors().add("É permitido apenas jogos entre times diferentes.");
 
         try {
@@ -34,7 +35,7 @@ public class CompetitionService {
                 resultEntity.getErrors().add("Já existe uma competição acontecendo neste horário e/ou local informado.");
 
             //FALSE = A PARTIDA TEM MENOS DE 30 MINUTOS, TRUE, A PARTIDA TEM 30 OU MAIS.
-            boolean res2 = new CompetitionRepository().verifyTime(competitionEntity);
+            boolean res2 = verifyTime(competitionEntity);
             if(!res2)
                 resultEntity.getErrors().add("Cada competição deve ter 30 minutos ou mais de duração.");
 
@@ -65,5 +66,20 @@ public class CompetitionService {
 
             return resultEntity;
         }
+    }
+
+    public boolean checkPlayers(CompetitionEntity competitionEntity){
+        return competitionEntity.getFedaration1Id() == competitionEntity.getFederation2Id();
+    }
+
+    //A competição deve ter a duração de no mínimo 30 minutos.
+    public boolean verifyTime(CompetitionEntity competitionEntity){
+        Calendar checkAux = Calendar.getInstance();
+        checkAux.setTime(competitionEntity.getStartDate());
+
+        checkAux.add(Calendar.MINUTE, 29);
+        checkAux.add(Calendar.SECOND, 59);
+
+        return competitionEntity.getFinalDate().after(checkAux.getTime());
     }
 }
